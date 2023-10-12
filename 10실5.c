@@ -1,49 +1,31 @@
-#pragma warning(disable:4996)
-#include <stdio.h>
-
-//구조체 정의
-struct student {
-	char name[9];
-	int kor, eng, mat;
-	double avg;
-	char result;
-};
+#pragma warning (disable:4996)
+#include <stdio.h>				
 
 int main(void) {
 
-	//구조체 배열 선언
-	struct student st[50], *p = NULL;
-	int N;
+	int idx, len1 = 0, len2 = 0;
+	char str1[41], str2[21], *p1 = str1, *p2 = str2; //str1에 결과 저장함을 고려해 길이 설정
 
-	scanf("%d", &N);
+	scanf("%s", str1);
+	scanf("%s", str2);
 
-	//구조체 포인터 활용하여 구조체 배열의 원소별 멤버 간접 접근
-	for (p = st; p < st + N; p++) 
-		scanf("%s %d %d %d", p->name, &p->kor, &p->eng, &p->mat);
+	scanf("%d", &idx);	//인덱스 입력
+
+	for (; *p1; p1++)
+		len1++;
+	for (; *p2; p2++)	//배열별 길이 구하기 (항상 인덱스 + 1)
+		len2++;
+
+	//이동
+	for (p1 = str1 + len1; p1 >= str1 + idx; p1--)	//널 문자 포함해 이동시키기(널문자...인덱스까지)
+		*(p1 + len2) = *p1;	//str1의 각 원소를 len2 칸만큼 뒤로 보내기
+
+	//삽입
+	p1 = str1 + idx; //인덱스 지점으로 연결 초기화
+	for (p2 = str2; p2 < str2 + len2; p2++, p1++)		//str2 정순 삽입
+			*p1 = *p2;
 	
-	for (p = st; p < st + N; p++) {
-		p->avg = 0;
-		p->avg = (double)(p->kor + p->eng + p->mat)/3;	//형 변환에 유의
-
-		//구조체 포인터를 통해 접근한 구조체 배열의 각 구조체 원소의 멤버인 학점 매기기
-		if (p->avg >= 90 && p->avg <= 100)
-			p->result = 'A';
-		else if (p->avg >= 80 && p->avg <= 90)
-			p->result = 'B';
-		else if (p->avg >= 70 && p->avg <= 80)
-			p->result = 'C';
-		else
-			p->result = 'D';
-	}
-
-	//구조체 포인터를 통해 구조체 배열 접근하여 간접 참조한 값 출력
-	for (p = st; p < st + N; p++)
-		printf("%s %.1f %c\n", p->name, p->avg, p->result);
+	printf("%s", str1); //널 문자 포함하여 이동시켰으므로 추가 안해도 됨//
 
 	return 0;
 }
-/*
-2
-Kim 82 72 58
-Young 90 100 99
-*/

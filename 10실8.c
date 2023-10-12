@@ -1,43 +1,30 @@
 #pragma warning(disable:4996)
 #include <stdio.h>
-
-//구조체 정의
-struct complex {
-	double real, imag;
-};
-
-//함수 선언
-struct complex add(struct complex, struct complex);
+#include <string.h>	//문자열 처리 함수 포함
 
 int main(void) {
 
-	//구조체 선언
-	struct complex cp1, cp2, cp3;
+	char ar[51], br[51], cr[101], *p, *q = cr; //cr의 경우 50 + 50 + 1널문자
+	int res;
 
-	scanf("%lf %lf", &cp1.real, &cp1.imag);
-	scanf("%lf %lf", &cp2.real, &cp2.imag);
+	//문자열 입력
+	scanf("%s", ar);
+	scanf("%s", br);
 
-	//함수 호출 및 구조체 단순 대입 
-	cp3 = add(cp1, cp2);
+	//문자열 비교
+	res = strcmp(ar, br);
 
-	printf("%.1f + %.1fi", cp3.real, cp3.imag);
+	if (res < 0) {	//ar < br 사전상 br가 뒤에 있는 경우,
+		strcpy(cr, br);	//사전의 역순으로 br 먼저 복사 후
+		strcat(cr, ar);	//ar 접합하기
+	}
+	else {			//사전상 ar가 뒤에 있는 경우,
+		strcpy(cr, ar);	//ar 먼저 복사 후
+		strcat(cr, br);	//br 접합하기
+	}
 
+	//문자열 출력
+	printf("%s\n", cr);
+	
 	return 0;
 }
-
-//함수 정의
-struct complex add(struct complex a, struct complex b) {
-
-	//구조체 변수 선언
-	struct complex c;
-
-	//넘겨받은 구조체 변수값들 활용
-	c.real = a.real + b.real;
-	c.imag = a.imag + b.imag;
-
-	return c;
-}
-/*
-2.3 4.5
-3.4 5.0
-*/

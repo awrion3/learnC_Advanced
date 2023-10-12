@@ -1,43 +1,44 @@
 #pragma warning(disable:4996)
 #include <stdio.h>
 
-//구조체 정의
-struct time {
-	int hour, min, sec;
-};
-
 int main(void) {
 
-	//구조체 선언
-	struct time t1, t2, t3;
-	int a1, a2, a3;
-
-	//구조체 변수값 입력 (공백 입력 구분자 사용)
-	scanf("%d %d %d", &t1.hour, &t1.min, &t1.sec);
-	scanf("%d %d %d", &t2.hour, &t2.min, &t2.sec);
-
-	//시간 차 계산
-	a1 = t1.hour * 3600 + t1.min * 60 + t1.sec;
-	a2 = t2.hour * 3600 + t2.min * 60 + t2.sec;
-
-	a3 = a2 - a1;
-
-	//시간 단위 계산
-	t3.hour = a3 / 3600;
-	a3 %= 3600;
-	t3.min = a3 / 60;
-	a3 %= 60;
-	t3.sec = a3;
+	int n, num;	//정수형
+	char ar[10], *p = ar; //문자형 (널 문자 고려)
 	
-	//구조체 변수값 출력
-	printf("%d %d %d", t3.hour, t3.min, t3.sec);
+	scanf("%d", &n);	//정수 입력
+
+	while (n != 0) {
+		num = n % 10;	//한 자리씩
+
+		if (num == 0)	//맨앞이 0이면 안된다는 조건 없으므로
+			*p = '0';
+		else if (num == 1)
+			*p = '1';
+		else if (num == 2)
+			*p = '2';
+		else if (num == 3)
+			*p = '3';
+		else if (num == 4)
+			*p = '4';
+		else if (num == 5)
+			*p = '5';
+		else if (num == 6)
+			*p = '6';
+		else if (num == 7)
+			*p = '7';
+		else if (num == 8)
+			*p = '8';
+		else
+			*p = '9';
+
+		p++;	//포인터 이동
+		n /= 10;		//자리수 분리
+	}
+
+	*p = '\0';	//문자열임을 표기 (인덱스 증가에 유의)
+
+	printf("%s", ar);	//문자열 출력
 
 	return 0;
 }
-/*
-10 20 30
-12 05 10
-
-1 10 20
-3 20 30
-*/
