@@ -1,34 +1,61 @@
 #pragma warning(disable:4996)
 #include <stdio.h>
-#include <string.h>	//문자열 처리 표준 함수 포함
+
+//구조체 정의
+struct date {
+	int year, month, day;
+};
+
+//함수 선언
+struct date* select_min(struct date*, struct date*);
 
 int main(void) {
 
-	int N, len, min, fl = 0;
-	char ar[101], mn[101];	//문자열 선언 (널 문자 고려)
+	//구조체 선언 및 포인터 선언
+	struct date dt1, dt2, *pd;
 
-	scanf("%d", &N);
-	getchar();	//아래 gets 고려하여 필요(여기 엔터키부터 포함시킨 후, 다음 엔터키 입력 전까지 저장해버림)//
+	scanf("%d/%d/%d", &dt1.year, &dt1.month, &dt1.day);
+	scanf("%d/%d/%d", &dt2.year, &dt2.month, &dt2.day);
 
-	for (int i = 0; i < N; i++) {
-		gets_s(ar, 100); //gcc에서는 gets(ar);를 쓰도록 한다//
-		//공백을 포함하는 문자열 == 문자열 입출력 표준 함수 == <stdio.h>
-		
-		len = strlen(ar);
-		
-		if (fl == 0) {	//처음 초기화
-			min = len;
-			strcpy(mn, ar);
-			fl = 1;
-		}
-		else if (min > len){ //이후 min 갱신 및 배열 저장 갱신
-			min = len;
-			strcpy(mn, ar);
-		}
-	}
+	//함수 호출(구조체 주소 넘기고 반환 받기)
+	pd = select_min(&dt1, &dt2);
 
-	//최소 길이의 문자열 출력
-	printf("%s", mn);
+	//구조체 포인터 활용하여 출력
+	printf("%d/%d/%d", pd->year, pd->month, pd->day);
 
 	return 0;
 }
+
+//함수 정의
+struct date* select_min(struct date *p1, struct date *p2) {
+
+	//간접 참조한 구조체 멤버값 간 비교하여 특정 구조체 주소값으로 반환
+	if (p1->year < p2->year) {
+		return p1;
+	}
+	else if (p1->year > p2->year) {
+		return p2;
+	}
+	else {
+		if (p1->month < p2->month) {
+			return p1;
+		}
+		else if (p1->month > p2->month) {
+			return p2;
+		}
+		else {
+			if (p1->day < p2->day) {
+				return p1;
+			}
+			else
+				return p2;
+		}
+	}
+}
+/*
+2016/10/9
+2016/8/6
+
+2014/10/9
+2016/8/6
+*/

@@ -1,19 +1,42 @@
 #pragma warning(disable:4996)
 #include <stdio.h>
 
+//구조체 정의
+struct vector {
+	int ar[3];
+};
+
 int main(void) {
 
-	char ar[21], *p = ar; //문자열 선언 (널 문자 포함)
+	//구조체 선언
+	struct vector v1, v2, v3;
+	int dot = 0;
 
-	scanf("%s", ar); //공백 포함하지 않는 입력
+	//구조체 변수1 입력
+	for (int i = 0; i < 3; i++)
+		scanf("%d", &v1.ar[i]);
 
-	for (; *p; p++) //문자열 원소 값이 NULL이면 반복 중지
-		if (*p >= 'a' && *p <= 'z')
-			printf("%c", *p);	//소문자만 출력
+	//구조체 변수2 입력
+	for (int i = 0; i < 3; i++)
+		scanf("%d", &v2.ar[i]);
+
+	//구조체 변수3 계산
+	for (int i = 0; i < 3; i++) {
+		v3.ar[i] = v1.ar[i] * v2.ar[i];
+		printf("%d ", v3.ar[i]);
+	}
+	printf("\n");
+
+	//구조체 변수3 사용
+	for (int i = 0; i < 3; i++)
+		dot += v3.ar[i];
+
+	//결과값 출력
+	printf("%d", dot);
 
 	return 0;
 }
-
 /*
-for (int i = 0; ar[i]; i++)	//배열 형태
+1 2 3
+-1 5 5
 */

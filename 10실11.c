@@ -1,35 +1,53 @@
 #pragma warning(disable:4996)
 #include <stdio.h>
-#include <string.h>	//문자열 처리 표준 함수 포함
+
+//구조체 정의
+struct student {
+	char name[10];
+	int score;
+};
+
+//함수 선언
+struct student* select_min(struct student *);
 
 int main(void) {
 
-	char str1[81], str2[11], *p = str1, *q = str2;	//널 문자 고려
-	int len1, fl = 1;
+	//구조체 배열 선언 및 포인터 선언과 연결
+	struct student st[5], *p = NULL;
 
-	scanf("%s", str1);
-	scanf("%s", str2); //공백을 포함하지 않는 문자열 입력
+	//포인터 주소 비교를 통해 구조체 배열 접근하여 구조체 원소별 멤버값 입력
+	for (p = st; p < st + 5; p++)
+		scanf("%s %d", p->name, &p->score);
 
-	len1 = strlen(str1);
-	printf("%d ", len1);	//첫번째 문자열의 길이 출력
-
-	for (; *p; p++)	//첫번째 문자열을 기준으로 훑으며 
-		if (*p == *q) {	//두번째 문자열의 문자와 같은 경우ㅡ
-			fl = 1;		//같음을 표기
-
-			q++;		//두번째 문자열 포인터 이동//
-			if (!*q)	//만약 두번째 문자열의 끝(널문자)에 도달한 경우 검사 끝내기
-				break;	
-		}
-		else {			//두번째 문자열의 문자와 다른 경우ㅡ
-			if (fl == 1)	//만약 이전까지는 같았다면,
-				p--;		//다시 이전으로 되감아서 다음 검사 때 그 지점부터 다시 체크하게 하기
-
-			fl = 0;		//다름을 표기
-			q = str2;	//두번째 문자열 처음부터 비교하게끔 포인터 이동//
-		}
-
-	printf("%d", fl);	//검사 결과 출력
+	//함수 호출 및 구조체 배열의 특정 구조체 원소의 주소 반환받기
+	p = select_min(st);
+	
+	//포인터를 활용하여 해당 구조체 원소의 멤버값 간접접근하여 출력
+	printf("%s %d", p->name, p->score);
 
 	return 0;
 }
+
+//함수 정의
+struct student* select_min(struct student *ps) {
+
+	struct student *p, *mp = ps;	//반복문 진입 안했을 때 고려해 포인터 주소값 초기화하기
+	double mavg = 101;		
+
+	for (p = ps; p < ps + 5; p++)	//포인터로 구조체 배열 접근하여 구조체 원소들의 멤버값 비교하며 갱신
+		if (mavg > p->score) {
+			mavg = p->score;
+			mp = p;
+		}
+
+	//구조체 배열의 특정 구조체 원소를 가리키는 주소 반환
+	return mp;
+}
+
+/*
+akim 75
+bkim 85
+ckim 65
+dkim 95
+ekim 100
+*/

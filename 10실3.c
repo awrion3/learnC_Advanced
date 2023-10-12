@@ -1,25 +1,39 @@
 #pragma warning(disable:4996)
 #include <stdio.h>
 
+//구조체 정의
+struct student {
+	char name[10];
+	int score;
+};
+
 int main(void) {
 
-	char ar[101], *p = ar, *q = ar, tmp; //널 문자 고려
-	int len = 0;
+	//구조체 배열 선언
+	struct student st[5];
+	double avg = 0;
 
-	scanf("%s", ar);	//문자열 입력
-
-	for (; *p; p++)
-		len++;	//길이 측정 (널 문자 제외)
-
-	for (int i = 0; i < len; i++) {	//문자열 길이만큼 반복
-		printf("%s\n", ar);
-
-		tmp = *q;	//맨앞 칸의 문자 저장
-		for (p = ar; p < ar + len - 1; p++)	//두번째 칸부터 한칸씩 앞으로 당기기
-			*p = *(p + 1);	//+1이므로 위에서 -1하여 인덱스 조정
-		p = ar + len - 1;	 //마지막 칸으로 연결 후
-		*p = tmp;			 //tmp에 저장된 맨앞 칸의 문자 대입
+	//구조체 배열의 구조체 원소별 멤버값 입력
+	for (int i = 0; i < 5; i++){
+		scanf("%s", st[i].name);
+		scanf("%d", &st[i].score);
+		avg += st[i].score;
 	}
-	
+
+	avg = (double)avg / 5;	//형 변환에 유의
+
+	//구조체 배열의 구조체 원소별 멤버값 출력
+	for (int i = 0; i < 5; i++)
+		if (st[i].score <= avg)
+			printf("%s\n", st[i].name);
+
 	return 0;
 }
+
+/*
+akim 75
+bkim 85
+ckim 65
+dkim 95
+ekim 100
+*/
