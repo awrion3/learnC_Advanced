@@ -1,42 +1,29 @@
 #pragma warning(disable:4996)
 #include <stdio.h>
-
-//구조체 정의
-struct vector {
-	int ar[3];
-};
+#include <stdlib.h>	//동적할당 관련 헤더 파일
 
 int main(void) {
 
-	//구조체 선언
-	struct vector v1, v2, v3;
-	int dot = 0;
+	int N, *p, sum = 0;
 
-	//구조체 변수1 입력
-	for (int i = 0; i < 3; i++)
-		scanf("%d", &v1.ar[i]);
+	scanf("%d", &N);
 
-	//구조체 변수2 입력
-	for (int i = 0; i < 3; i++)
-		scanf("%d", &v2.ar[i]);
+	p = (int*)malloc(N * sizeof(int));
+	if (p == NULL)
+		return -1;	//동적할당 및 확인
 
-	//구조체 변수3 계산
-	for (int i = 0; i < 3; i++) {
-		v3.ar[i] = v1.ar[i] * v2.ar[i];
-		printf("%d ", v3.ar[i]);
+	for (int i = 0; i < N; i++){
+		scanf("%d", &p[i]);	//배열 형태로 포인터 사용
+		sum += p[i];
 	}
-	printf("\n");
 
-	//구조체 변수3 사용
-	for (int i = 0; i < 3; i++)
-		dot += v3.ar[i];
+	printf("%d", sum);
 
-	//결과값 출력
-	printf("%d", dot);
+	free(p);	//동적할당 해제
 
 	return 0;
 }
 /*
-1 2 3
--1 5 5
+6
+3 2 0 1 4 6
 */
