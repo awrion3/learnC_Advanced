@@ -1,54 +1,43 @@
 #pragma warning(disable:4996)
 #include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+
+//구조체 정의
+struct complex {
+	double real, imag;
+};
+
+//함수 선언
+struct complex add(struct complex, struct complex);
 
 int main(void) {
 
-	int N, len, min = 101;
-	char **p, tmp[101], *q = NULL;
+	//구조체 선언
+	struct complex cp1, cp2, cp3;
 
-	scanf("%d", &N);
-	getchar();	//gets 고려
+	scanf("%lf %lf", &cp1.real, &cp1.imag);
+	scanf("%lf %lf", &cp2.real, &cp2.imag);
 
-	p = (char**)malloc(N * sizeof(char*));	//이중 포인터 사용
-	
-	if (p == NULL) {	//동적할당 및 확인
-		printf("Not enough Memory");
-		return -1;
-	}
+	//함수 호출 및 구조체 단순 대입 
+	cp3 = add(cp1, cp2);
 
-	for (int i = 0; i < N; i++){
-		gets_s(tmp, 100);	
-		len = strlen(tmp);	//임시 문자열 길이 재기
-
-		p[i] = (char*)malloc((len + 1) * sizeof(char));	//널 문자 포함해서 맞추어 재단
-
-		if (p[i] == NULL) {	//동적할당 및 확인
-			printf("Not enough Memory");
-			return -1;
-		}
-
-		strcpy(p[i], tmp);	//재단한 문자열에 저장
-
-		if (len < min) {	//최소 길이 문자열 구하기
-			min = len;
-			q = p[i];
-		}
-	}
-
-	printf("%s", q);	//최소 길이 문자열 출력
-
-	for (int i = 0; i < N; i++)	//차례대로 동적할당 해제
-		free(p[i]);
-	free(p);
+	printf("%.1f + %.1fi", cp3.real, cp3.imag);
 
 	return 0;
 }
+
+//함수 정의
+struct complex add(struct complex a, struct complex b) {
+
+	//구조체 변수 선언
+	struct complex c;
+
+	//넘겨받은 구조체 변수값들 활용
+	c.real = a.real + b.real;
+	c.imag = a.imag + b.imag;
+
+	return c;
+}
 /*
-4
-Program
-Good
-This is string
-language
+2.3 4.5
+3.4 5.0
 */

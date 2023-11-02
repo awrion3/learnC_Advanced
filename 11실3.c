@@ -1,37 +1,39 @@
 #pragma warning(disable:4996)
 #include <stdio.h>
-#include <stdlib.h>
+
+//구조체 정의
+struct student {
+	char name[10];
+	int score;
+};
 
 int main(void) {
 
-	int N, cnt1 = 0, cnt2 = 0;
-	char *p, ch1, ch2;
+	//구조체 배열 선언
+	struct student st[5];
+	double avg = 0;
 
-	scanf("%d", &N);
+	//구조체 배열의 구조체 원소별 멤버값 입력
+	for (int i = 0; i < 5; i++){
+		scanf("%s", st[i].name);
+		scanf("%d", &st[i].score);
+		avg += st[i].score;
+	}
 
-	p = (char*)malloc((N + 1) * sizeof(char));	//널 문자 고려
+	avg = (double)avg / 5;	//형 변환에 유의
 
-	scanf("%s", p);
-
-	getchar();	//다음 %c 고려
-	scanf("%c %c", &ch1, &ch2);
-
-	for (int i = 0; i < N; i++) 
-		if (p[i] == ch1)
-			cnt1++;
-	
-	for (int i = 0; i < N; i++)
-		if (p[i] == ch2)
-			cnt2++;
-
-	printf("%d %d", cnt1, cnt2);	//일치 문자 수 각각 출력
-
-	free(p);
+	//구조체 배열의 구조체 원소별 멤버값 출력
+	for (int i = 0; i < 5; i++)
+		if (st[i].score <= avg)
+			printf("%s\n", st[i].name);
 
 	return 0;
 }
+
 /*
-5
-apple
-a x
+akim 75
+bkim 85
+ckim 65
+dkim 95
+ekim 100
 */

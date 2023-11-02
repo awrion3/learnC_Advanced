@@ -1,58 +1,41 @@
 #pragma warning(disable:4996)
 #include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+
+//구조체 정의
+struct result {
+	int high, low, limit, gap;
+	char porf;
+};
+
+//함수 선언
+void passorfail(struct result *);
 
 int main(void) {
 
-	int N, len;
-	char **p, tmp[101], *qmp;
+	//구조체 선언
+	struct result st;
 
-	scanf("%d", &N);
-	getchar();
+	scanf("%d %d %d", &st.high, &st.low, &st.limit);
 
-	p = (char**)malloc(N * sizeof(char*));
+	//함수 호출(주소 연결)
+	passorfail(&st);
 
-	if (p == NULL) {
-		printf("Not enough Memory");
-		return -1;
-	}
-
-	for (int i = 0; i < N; i++) {
-		gets_s(tmp, 100);
-		len = strlen(tmp);
-
-		p[i] = (char*)malloc((len + 1) * sizeof(char));
-		
-		if (p[i] == NULL) {
-			printf("Not enough Memory");
-			return -1;
-		}
-
-		strcpy(p[i], tmp);
-	}
-
-	for (int i = 0; i < N - 1; i++)	//이번에는 문자열 간 정렬
-		for (int j = 0; j < N - 1; j++)
-			if (strlen(p[j]) < strlen(p[j + 1])) {	//오름차순 정렬(긴 문자열 앞에 위치)
-				qmp = p[j];
-				p[j] = p[j + 1];	//문자열들 공간은 모두 재단되었기에, strcpy()가 아닌,
-				p[j + 1] = qmp;		//가리키는 포인터만 교환해야 한다
-			}
-
-	for (int i = 0; i < N; i++)	//정렬된 문자열들 출력
-		printf("%s\n", p[i]);
-
-	for (int i = 0; i < N; i++)	//차례대로 동적할당 해제
-		free(p[i]);
-	free(p);
+	printf("%d %c", st.gap, st.porf);
 
 	return 0;
 }
+
+//함수 정의
+void passorfail(struct result *p) {
+
+	//간접 접근하여 멤버값 저장
+	p->gap = p->high - p->low;
+
+	if (p->gap <= p->limit)
+		p->porf = 'P';
+	else
+		p->porf = 'F';
+}
 /*
-4
-Program
-Good
-This is string
-language
+100 95 10
 */

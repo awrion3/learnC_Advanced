@@ -1,46 +1,42 @@
 #pragma warning(disable:4996)
 #include <stdio.h>
-#include <stdlib.h>
+
+//구조체 정의
+struct numbers {
+	int num;
+	int rank;
+};
 
 int main(void) {
 
-	int row, col, **p, fl = 0;	//이중 포인터 선언
-	char ch = 'a';
+	//구조체 배열 선언
+	struct numbers rk[10];
 
-	scanf("%d %d", &col, &row);	//열 행 입력
+	//구조체 배열의 구조체 원소별 멤버값 입력
+	for (int i = 0; i < 10; i++)
+		scanf("%d", &rk[i].num);
 
-	p = (int**)malloc(row * sizeof(int*));	
-	//이중 포인터 (포인터 배열 선언 예: *ar[5], 이러한 배열 이름 *ar를 가리키는 포인터;
-	//포인터'의' 주소를 가리키는 포인터)
+	//구조체 배열의 구조체 원소별 멤버값 활용하여 다른 멤버값(등수) 구하기
+	for (int i = 0; i < 10; i++) {
+		rk[i].rank = 1;	//구조체 배열의 구조체 원소별 멤버값 초기화
 
-	for (int i = 0; i < row; i++){
-		p[i] = (int*)malloc(col * sizeof(int));	
-		//p[i]는 주소(포인터 배열의 원소), 참고: *p[i]는 값(포인터 배열의 원소가 가리키는 값) 
-		//== *(p + i)                            == **(p + i)
-
-		for (int j = 0; j < col; j++){
-			if (ch > 'z')				//초과한 경우 초기화
-				ch = 'A';
-			if (ch > 'Z' && ch < 'a')	//사이인 경우 초기화
-				ch = 'a';				
-			
-			p[i][j] = ch++;	//p[i]가 주소라면, 옆은 *(p[i] + j)을 의미한다
-			//포인터 배열의 원소인 포인터p[i]가 가리키는 배열을 접근하여 각 원소값 저장
-		}
+		for (int j = 0; j < 10; j++)
+			if (rk[i].num < rk[j].num) {
+				++rk[i].rank;
+			}
 	}
 	
-	for (int i = 0; i < row; i++){
-		for (int j = 0; j < col; j++)	//저장된 값 출력
-			printf("%c ", p[i][j]);
-		printf("\n");
-	}
-
-	for (int i = 0; i < row; i++)	//차례로 동적할당 해제
-		free(p[i]);
-	free(p);
+	//3순위와 7순위 등수를 가지는 멤버값(정수) 출력하기
+	for (int i = 0; i < 10; i++)
+		if (rk[i].rank == 3)
+			printf("%d ", rk[i].num);
+	
+	for (int i = 0; i < 10; i++)
+		if (rk[i].rank == 7)
+			printf("%d", rk[i].num);
 
 	return 0;
 }
 /*
-9 6
+78 65 23 43 82 95 31 15 8 54
 */

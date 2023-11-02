@@ -1,48 +1,61 @@
 #pragma warning(disable:4996)
 #include <stdio.h>
-#include <stdlib.h>
+
+//구조체 정의
+struct date {
+	int year, month, day;
+};
+
+//함수 선언
+struct date* select_min(struct date*, struct date*);
 
 int main(void) {
 
-	int N, *p, num = 0, *q, k = 0;
-	
-	scanf("%d", &N);
-	
-	//동적할당 및 확인
-	p = (int*)malloc(N * sizeof(int));
+	//구조체 선언 및 포인터 선언
+	struct date dt1, dt2, *pd;
 
-	if (p == NULL) {
-		printf("Not enough memory");
-		return -1;
-	}
+	scanf("%d/%d/%d", &dt1.year, &dt1.month, &dt1.day);
+	scanf("%d/%d/%d", &dt2.year, &dt2.month, &dt2.day);
 
-	for (int i = 0; i < N; i++) //값 저장
-		p[i] = num++;
+	//함수 호출(구조체 주소 넘기고 반환 받기)
+	pd = select_min(&dt1, &dt2);
 
-	//동적할당 및 확인
-	q = (int*)malloc((N - 1) * sizeof(int));
-
-	if (q == NULL) {
-		printf("Not enough memory");
-		return -1;
-	}
-
-	//새로운 동적할당된 배열에 새롭게 배열값 저장
-	for (int i = 0; i < N; i++) {
-		if (p[i] == N / 2)	//중앙값을 제외하고
-			continue;
-		q[k++] = p[i];
-	}
-
-	for (int i = 0; i < N - 1; i++)	//배열 크기 하나 줄어듦에 유의
-		printf(" %d", q[i]);
-
-	//차례대로 동적할당 해제
-	free(p);
-	free(q);
+	//구조체 포인터 활용하여 출력
+	printf("%d/%d/%d", pd->year, pd->month, pd->day);
 
 	return 0;
 }
+
+//함수 정의
+struct date* select_min(struct date *p1, struct date *p2) {
+
+	//간접 참조한 구조체 멤버값 간 비교하여 특정 구조체 주소값으로 반환
+	if (p1->year < p2->year) {
+		return p1;
+	}
+	else if (p1->year > p2->year) {
+		return p2;
+	}
+	else {
+		if (p1->month < p2->month) {
+			return p1;
+		}
+		else if (p1->month > p2->month) {
+			return p2;
+		}
+		else {
+			if (p1->day < p2->day) {
+				return p1;
+			}
+			else
+				return p2;
+		}
+	}
+}
 /*
-11
+2016/10/9
+2016/8/6
+
+2014/10/9
+2016/8/6
 */
