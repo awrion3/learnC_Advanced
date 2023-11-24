@@ -4,71 +4,66 @@
 #include <stdlib.h>
 
 typedef struct student {
-	char* depart;
-	char id[8];
-}student;
+	char *name;
+	int kor;
+} student;
 
 int main(void) {
 
-	int N, len;
-	char tmp[101];
-	student *p, smp;
+	student* p;
+	int N, len, lm1, lm2;
+	char tmp[21], nm1[21], nm2[21];
 
 	scanf("%d", &N);
 
-	p = (student*)malloc(N * sizeof(student));
+	p = (struct student*)malloc(N * sizeof(struct student));
 
 	if (p == NULL) {
-		printf("Not enough memory");
+		printf("not enough memory");
 		return -1;
 	}
 
 	for (int i = 0; i < N; i++) {
 		scanf("%s", tmp);
-
 		len = strlen(tmp);
-		p[i].depart = (char*)malloc((len + 1) * sizeof(char));
 
-		if (p[i].depart == NULL) {
-			printf("Not enough memory");
+		p[i].name = (char*)malloc((len + 1) * sizeof(char));
+
+		if (p[i].name == NULL) {
+			printf("not enough memory");
 			return -1;
 		}
 
-		strcpy(p[i].depart, tmp);
+		strcpy(p[i].name, tmp);
 
-		scanf("%s", p[i].id);
+		scanf("%d", &p[i].kor);
 	}
-	
-	for (int i = 0; i < N - 1;i++)
-		for (int j = 0; j < N - 1; j++)
-			if (strcmp(p[j].depart, p[j + 1].depart) >= 0) {
-				if (strcmp(p[j].depart, p[j + 1].depart) > 0) {
-					smp = p[j];
-					p[j] = p[j + 1];
-					p[j + 1] = smp;
-				}
-				else if (strcmp(p[j].id, p[j + 1].id) > 0) {
-					smp = p[j];
-					p[j] = p[j + 1];
-					p[j + 1] = smp;
-				}
-			}
+
+	scanf("%d %d", &lm1, &lm2);
+	scanf("%s %s", nm1, nm2);
 
 	for (int i = 0; i < N; i++)
-		printf("%s %s\n", p[i].depart, p[i].id);
+		if (p[i].kor >= lm1 && p[i].kor <= lm2)
+			printf("%s %d\n", p[i].name, p[i].kor);
+
+	printf("*****\n");
+	for (int i = 0; i < N; i++)
+		if (strcmp(p[i].name, nm1) >= 0 && strcmp(p[i].name, nm2) <= 0)
+			printf("%s %d\n", p[i].name, p[i].kor);
 
 	for (int i = 0; i < N; i++)
-		free(p[i].depart);
+		free(p[i].name);
 	free(p);
 
 	return 0;
 }
-
 /*
 5
-english 003
-korean 005
-english 001
-korean 004
-korean 002
+jacob 31
+kim 41
+lee 51
+park 61
+jane 71
+60 75
+ja lz
 */
